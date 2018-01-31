@@ -5,40 +5,99 @@ ini_set('display_startup_errors', TRUE);
 require_once __DIR__ . '/vendor/autoload.php';
 use Timber\Site;
 
-class StarterSite extends Site {
+class Seedling extends Site {
 
-	function __construct() {
-		add_theme_support('post-formats');
-		add_theme_support('post-thumbnails');
-		add_theme_support('menus');
-		add_filter('timber_context', array($this, 'add_to_context'));
-		add_filter('get_twig', array($this, 'add_to_twig'));
-		add_action('init', array($this, 'register_post_types'));
-		add_action('init', array($this, 'register_taxonomies'));
+	public function __construct() {
+		add_filter( 'timber_context', array($this, 'addToContext') );
+		add_action( 'init', array($this, 'extend') );
+		add_action( 'login_enqueue_scripts', array($this, 'updateLoginLogo') );
+		add_filter( 'login_headerurl', array($this, 'updateLoginLogoURL') );
+		add_filter( 'login_message', array($this, 'addLoginMessage') );
 		parent::__construct();
 	}
 
-	function register_post_types() {
-		//this is where you can register custom post types
+	public function extend() {
+		$this->themeSupport();
+		$this->registerPostTypes();
+		$this->registerTaxonomies();
+		$this->addUserRoles();
+		$this->addImagesSizes();
+		$this->addToACF();
 	}
 
-	function register_taxonomies() {
-		//this is where you can register custom taxonomies
-	}
-
-	function add_to_context($context) {
-		$context['menu'] = new Timber\Menu();
+	/**
+	 * Use this method to add variables to the context
+	 */
+	public function addToContext($context) {
+		$context['menu'] = new Timber\Menu('main-menu');
+		$context['footer-menu'] = new Timber\Menu('footer-menu');
+		$context['options'] = get_fields('option');
 		$context['site'] = $this;
 		return $context;
 	}
 
-	function add_to_twig($twig) {
-		/* this is where you can add your own fuctions to twig */
-		$twig->addExtension(new Twig_Extension_StringLoader());
-		$twig->addFilter('myfoo', new Twig_Filter_Function('myfoo'));
-		return $twig;
+	/**
+	 * Use this method to add theme support
+	 */
+	public function themeSupport() {
+		add_theme_support( 'post-formats' );
+		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'menus' );
 	}
 
+	/**
+	 * Use this method to register custom post types
+	 */
+	public function registerPostTypes() {}
+
+	/**
+	 * Use this method to register custom taxonomies
+	 */
+	public function registerTaxonomies() {}
+
+	/**
+	 * Use this method to register custom image sizes
+	 */
+	public function addImagesSizes() {
+		// add_image_size( 'hero', 3000, 9999 );
+	}
+
+	/**
+	 * Use this method to add to Advanced Custom Fields
+	 */
+	public function addToACF() {
+		if( function_exists('acf_add_options_page') ) {
+			
+			acf_add_options_page(array(
+				'page_title' 	=> 'General Settings',
+				'menu_title'	=> 'Site Settings',
+				'menu_slug' 	=> 'site-general-settings',
+				'capability'	=> 'edit_posts',
+				'redirect'		=> false
+			));
+			
+		}
+	}
+
+	public function updateLoginLogo() { ?>
+	    <style type="text/css">
+	        #login h1 a, .login h1 a {
+	            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/logo.png);
+	            background-size: 90%;
+	            width: XXXpx;
+	            height: XXXpx;
+	            margin: 0 auto;
+	        }
+	    </style>
+	<?php }
+
+	public function updateLoginLogoURL() {
+		return get_site_url();
+	}
+
+	public function addLoginMessage() {
+		return "";
+	}
 }
 
-new StarterSite();
+new Seedling();
