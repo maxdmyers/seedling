@@ -4,6 +4,11 @@
   "version": "1.0.0",
   "homepage": "https://bultemagroup.com",
   "author": "Max Myers <max@bultemagroup.com>",
+  "license": "MIT",
+  "repository": { 
+    "type" : "git"
+    , "url" : "https://github.com/maxdmyers/seedling.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -19,7 +24,8 @@
     "gulp-rm": "^1.0.2",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.4.1",
-    "gulp-uglify": "^2.0.1"
+    "gulp-uglify": "^2.0.1",
+    "popper.js": "^1.12.9"
   },
   "dependencies": {
     "jquery": "^3.3.1"
