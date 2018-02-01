@@ -1,4 +1,8 @@
-@import '../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+/* --------------------\
+	Import Bootstrap
+----------------------*/
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
 .footer-sticky {
     position: absolute;
     height: 40px;
