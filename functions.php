@@ -31,7 +31,11 @@ class Seedling extends Site {
 	public function addToContext($context) {
 		$context['menu'] = new Timber\Menu('main-menu');
 		$context['footer-menu'] = new Timber\Menu('footer-menu');
-		$context['options'] = get_fields('option');
+				
+		if( function_exists('get_field') ) {
+			$context['options'] = get_fields('option');
+		}
+
 		$context['site'] = $this;
 		return $context;
 	}
