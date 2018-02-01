@@ -5,9 +5,9 @@
   "homepage": "https://bultemagroup.com",
   "author": "Max Myers <max@bultemagroup.com>",
   "license": "MIT",
-  "repository": { 
-    "type" : "git"
-    , "url" : "https://github.com/maxdmyers/seedling.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxdmyers/seedling.git"
   },
   "engines": {
     "node": ">= 0.10.0"
