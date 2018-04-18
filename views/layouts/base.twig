@@ -1,10 +1,11 @@
 {% block html_head_container %}
-    {% include 'html-header.twig' %}
-    {% block head %}
-    {% endblock %}
-    </head>
+{% include 'html-header.twig' %}
+{% block head %}
 {% endblock %}
-<body class="{{body_class}}" data-template="base.twig">
+    </head> 
+{% endblock %}
+
+    <body class="{{body_class}}" data-template="base.twig">
 {% block nav %}
     {% include 'nav.twig' %}
 {% endblock nav %}
