@@ -3,7 +3,7 @@
     "description": "A WordPress starter theme based on the lovely Timber library and Bootstrap 4.",
     "type": "wordpress-theme",
     "require": {
-        "timber/timber": "^1.6"
+        "timber/timber": "^1.8"
     },
     "license": "MIT",
     "authors": [

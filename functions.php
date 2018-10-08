@@ -1,9 +1,12 @@
 <?php
+use \Timber\Site;
+
+require_once __DIR__ . '/vendor/autoload.php';
+$timber = new \Timber\Timber();
+
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
-require_once __DIR__ . '/vendor/autoload.php';
-use Timber\Site;
 
 class Seedling extends Site {
 
