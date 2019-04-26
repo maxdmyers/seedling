@@ -176,7 +176,7 @@ class Seedling extends \Timber\Site {
 	<?php }
 
 	function addGTMBody() { ?>
-		<?php if ( WP_ENV === 'production' ) && ( get_field('google_tag_manager_id', 'option') ): ?>
+		<?php if ( WP_ENV === 'production' && get_field('google_tag_manager_id', 'option') ): ?>
 
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-<?php the_field('google_tag_manager_id', 'option') ?>"
