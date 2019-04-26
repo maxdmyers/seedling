@@ -3,20 +3,19 @@
     "description": "A WordPress starter theme based on the lovely Timber library and Bootstrap 4.",
     "type": "wordpress-theme",
     "require": {
-        "timber/timber": "^1.8"
+        "php": ">=7.1.0",
+        "timber/timber": "^1.9.4"
     },
     "license": "MIT",
     "authors": [
         {
             "name": "Max Myers",
-            "email": "max@bultemagroup.com"
+            "email": "max@bultemagroup.com",
+            "homepage": "https://bultemagroup.com"
         }
     ],
     "scripts": {
         "post-install-cmd": [
-            "npm install"
-        ],
-        "post-update-cmd": [
             "npm install"
         ]
     }
