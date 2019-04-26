@@ -14,58 +14,89 @@ Wordpress Site URL
 -----------------*/
 var devUrl      = "http://seedling.test";
 
+var paths       = {
+    styles: {
+        src:    'assets/src/scss/*.scss',
+        dest:   'assets/build/css/'
+    },
+    scripts: {
+        src:    'assets/src/js/*.js',
+        dest:   'assets/build/js/'
+    },
+    fonts: {
+        src:    'assets/src/fonts/*',
+        dest:   'assets/build/fonts/'
+    }
+};
+
 
 /* ---------------\
    Assets Tasks
 -----------------*/
-gulp.task('clean:build', function () {
-    return gulp.src('assets/build/**/*').pipe(rm());
+gulp.task('clean:build', function() {
+    return gulp.src( 'assets/build/**/*' )
+        .pipe( rm() );
 });
 
-gulp.task('scss', function () {
-    return gulp.src('assets/src/scss/*.scss')
-        .pipe(scss().on('error', scss.logError))
-        .pipe(sourcemaps.init())
-        .pipe(cleanCss())
-        .pipe(sourcemaps.write())
-        .pipe(concat('all.min.css'))
-        .pipe(gulp.dest('assets/build/css/'))
-        .pipe(notify('SCSS build completed'))
-        .pipe(browserSync.stream());
-});
+gulp.task('styles', gulp.series( function() {
+    return gulp.src( paths.styles.src )
+        .pipe( scss().on( 'error', scss.logError ) )
+        .pipe( sourcemaps.init() )
+        .pipe( cleanCss() )
+        .pipe( sourcemaps.write() )
+        .pipe( concat( 'all.min.css' ) )
+        .pipe( gulp.dest( paths.styles.dest ) )
+        .pipe( notify( 'SCSS build completed' ) )
+        .pipe( browserSync.stream() );
+}));
 
-gulp.task('fonts', function () {
-    return gulp.src('./assets/src/fonts/*')
-        .pipe(gulp.dest('assets/build/fonts/'))
-        .pipe(browserSync.stream());
-});
+gulp.task('fonts', gulp.series( function() {
+    return gulp.src( paths.fonts.src )
+        .pipe( gulp.dest( paths.fonts.dest ) )
+        .pipe( browserSync.stream() );
+}));
 
-gulp.task('js', function () {
-    return gulp.src(
-        [
-            './node_modules/jquery/dist/jquery.js',
+gulp.task('scripts', gulp.series( function() {
+    var stream = gulp.src([
             './node_modules/bootstrap/dist/js/bootstrap.js',
-            './assets/src/js/*.js'
-        ]
-    ).pipe(sourcemaps.init())
-        .pipe(concat('all.min.js'))
-        .pipe(sourcemaps.write())
-        .pipe(uglify())
-        .pipe(gulp.dest('./assets/build/js'))
-        .pipe(notify('Javascript build completed'))
-        .pipe(browserSync.stream());
-});
+            paths.scripts.src
+        ])
+        .pipe( sourcemaps.init() )
+        .pipe( concat('all.min.js') )
+        .pipe( sourcemaps.write() )
+        .pipe( uglify() )
+        .pipe( gulp.dest( paths.scripts.dest ) );
+
+    return gulp.src( './node_modules/jquery/dist/jquery.js' )
+        .pipe( sourcemaps.init() )
+        .pipe( concat('jquery.min.js') )
+        .pipe( sourcemaps.write() )
+        .pipe( uglify() )
+        .pipe( gulp.dest( paths.scripts.dest ) )        
+        .pipe( notify( 'Javascript build completed' ) )
+        .pipe( browserSync.stream() );
+}));
+
+gulp.task('jquery', gulp.series(function() {
+    return gulp.src( './node_modules/jquery/dist/jquery.js' )
+        .pipe( sourcemaps.init() )
+        .pipe( concat('jquery.min.js') )
+        .pipe( sourcemaps.write() )
+        .pipe( uglify() )
+        .pipe( gulp.dest( paths.scripts.dest ) )
+        .pipe( notify( 'jquery build completed' ) )
+        .pipe( browserSync.stream() );
+}));
 
 
 /* ---------------\
     Watch Task
 -----------------*/
-gulp.task('watch', function () {
-    notify('Watch started!');
+gulp.task('watch', gulp.series( function() {
     var files = [
+        paths.styles.src,
+        paths.scripts.src,
         './style.css',
-        './assets/src/scss/*.scss',
-        './assets/src/js/*.js',
         './**/*.php',
         './**/*.twig'
     ];
@@ -74,10 +105,11 @@ gulp.task('watch', function () {
             target: devUrl
         }
     });
-    gulp.watch('assets/src/js/*.js', ['js']);
-    gulp.watch('assets/src/scss/*.scss', ['scss']);
-    gulp.watch(['fonts']);
-    gulp.watch("*.twig").on('change', browserSync.reload);
-});
+    notify( 'Watch started...' );
+    gulp.watch( paths.scripts.src, gulp.series('scripts') );
+    gulp.watch( paths.styles.src, gulp.series('styles') );
+    gulp.watch( paths.fonts.src, gulp.series('fonts') );
+    gulp.watch( '*.twig' ).on( 'change', browserSync.reload );
+}));
 
-gulp.task('default', ['js', 'scss', 'fonts', 'watch']);
+gulp.task( 'default', gulp.series( 'scripts', 'styles', 'fonts', 'watch' ) );
