@@ -162,7 +162,7 @@ class Seedling extends \Timber\Site {
 	}
 
 	function addGTMHead() { ?>
-		<?php if ( WP_ENV === 'production' ) && ( get_field('google_tag_manager_id', 'option') ): ?>
+		<?php if ( WP_ENV === 'production' && get_field('google_tag_manager_id', 'option') ): ?>
 	 
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
