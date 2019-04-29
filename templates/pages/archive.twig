@@ -1,0 +1,47 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+	<section class="news services pb-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<hr>
+					<div class="news-list services-list mb-5">
+						<div class="row">
+							{% for news_post in posts %}
+								<div class="news-item service col-12 col-md-6" data-location="{{ news_post.link }}">
+									<h3>{{ news_post.title }}</h3>
+									<h5 class="text-lightblue">{{ news_post.date }}</h5>
+									<p>{{ news_post.preview() }}</p>
+									<div class="category {{ news_post.category.slug }}">
+										{{ news_post.category }}
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+					<hr>
+					<div class="tool-pagination">
+					    {% if posts.pagination.prev %}
+					        <a href="{{posts.pagination.prev.link}}" class="prev {{posts.pagination.prev.link|length ? '' : 'invisible'}}">Prev</a>
+					    {% endif %}
+					    <ul class="pages">
+					        {% for page in posts.pagination.pages %}
+					            <li>
+					                {% if page.link %}
+					                    <a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
+					                {% else %}
+					                    <span class="{{page.class}}">{{page.title}}</span>
+					                {% endif %}
+					            </li>
+					        {% endfor %}
+					    </ul>
+					    {% if posts.pagination.next %}
+					        <a href="{{posts.pagination.next.link}}" class="next {{posts.pagination.next.link|length ? '' : 'invisible'}}">Next</a>
+					    {% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
