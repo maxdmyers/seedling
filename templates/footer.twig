@@ -1,2 +1,15 @@
 <footer id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<ul class="list-unstyled text-left footer-menu">
+					{% for item in footer_menu.get_items %}
+					  	<li class="{{ item.classes | join(' ') }} pr-3 d-inline-block">
+					  		<a href="{{ item.link }}" class="text-white">{{ item.title }}</a>
+					  	</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
 </footer>

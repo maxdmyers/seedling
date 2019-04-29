@@ -1,8 +1,47 @@
 {% extends "layouts/base.twig" %}
+
 {% block content %}
-
-{% for post in posts %}
-	{% include ["tease-"~post.post_type~".twig", "tease.twig"] %}
-{% endfor %}
-
+	<section class="news pb-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<hr>
+					<div class="mb-5">
+						<div class="row">
+							{% for news_post in posts %}
+								<a class="news-item col-12 col-md-6" href="{{ news_post.link }}">
+									<h3>{{ news_post.title }}</h3>
+									<h5>{{ news_post.date }}</h5>
+									<p>{{ news_post.preview() }}</p>
+									<div class="category {{ news_post.category.slug }}">
+										{{ news_post.category }}
+									</div>
+								</a>
+							{% endfor %}
+						</div>
+					</div>
+					<hr>
+					<div class="tool-pagination">
+					    {% if posts.pagination.prev %}
+					        <a href="{{posts.pagination.prev.link}}" class="prev {{posts.pagination.prev.link|length ? '' : 'invisible'}}">Prev</a>
+					    {% endif %}
+					    <ul class="pages">
+					        {% for page in posts.pagination.pages %}
+					            <li>
+					                {% if page.link %}
+					                    <a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
+					                {% else %}
+					                    <span class="{{page.class}}">{{page.title}}</span>
+					                {% endif %}
+					            </li>
+					        {% endfor %}
+					    </ul>
+					    {% if posts.pagination.next %}
+					        <a href="{{posts.pagination.next.link}}" class="next {{posts.pagination.next.link|length ? '' : 'invisible'}}">Next</a>
+					    {% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}

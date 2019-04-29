@@ -1,35 +1,46 @@
 {% extends "layouts/base.twig" %}
-
 {% block content %}
-
-	<div class="content-wrapper">
-		<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
-			<section class="article-content">
-				<h1 class="article-h1">{{post.title}}</h1>
-
-				<p class="blog-author">
-					<span>By</span><a href="{{post.author.path}}"> {{ post.author.name }} </a><span>&bull;</span> {{ post.post_date|date}}
-				</p>
-
-				<div class="article-body">
-					{{post.content}}
+	<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
+		<section class="article-content py-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-lg-8 offset-lg-1">
+						{% if post.thumbnail.src %}
+							<img src="{{ post.thumbnail.src }}" alt="" class="mb-4 w-100">
+						{% endif %}
+						<h1 class="article-h1">{{ post.title }}</h1>
+						<h5 class="category {{ post.category.slug }}">{{ post.category }}</h5>
+						<p class="blog-author">
+							<span>By</span><a href="{{post.author.path}}"> {{ post.author.name }} </a><span>&bull;</span> {{ post.post_date | date }}
+						</p>
+						<div class="article-body">
+							{{ post.content }}
+						</div>
+					</div>
 				</div>
-			</section>
+			</div>
+		</section>
 		{% if post.comment_status != 'closed' %}
-			<section class="comments">
-				<div class="respond">
-					<h3 class="h2">Comments</h3>
-					{{ comment_form }}
-				</div>
-				<div class="responses">
-					{% for cmt in post.get_comments() %}
-						{% include "comment.twig" with {comment:cmt} %}
-					{% endfor %}
-				</div>
-
+			<section class="comments pb-5">
+				<section class="article-content">
+					<div class="container">
+						<div class="row">
+							<div class="col-12 col-lg-10 offset-lg-1">
+								<hr>
+								<div class="respond">
+									<h3 class="h2 text-lightblue">Comments</h3>
+									{{ comment_form }}
+								</div>
+								<div class="responses">
+									{% for cmt in post.get_comments() %}
+										{% include "comment.twig" with {comment:cmt} %}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 			</section>
-          	{% endif %}
-		</article>
-	</div> <!-- /content-wrapper -->
-
+		{% endif %}
+	</article>
 {% endblock %}

@@ -1,10 +1,61 @@
 {% extends "layouts/base.twig" %}
 
 {% block content %}
-	<h2>{{foo}}</h2>
-	<p>{{qux}}</p>
-	{% for post in posts %}
-		{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
-	{% endfor %}
-
+	<section class="news pb-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-lg-8 offset-lg-1">
+					<div class="mb-4 mt-5 text-left d-inline-block">News Archive</div>
+					<hr>
+					<div class="mb-5">
+						<div class="row">
+							{% for news_post in posts %}
+								<div class="col-12" data-location="{{ news_post.link }}">
+									<h3>{{ news_post.title }}</h3>
+									<h5>{{ news_post.date }}</h5>
+									<p>{{ news_post.preview() }}</p>
+									<div class="category {{ news_post.category.slug }}">
+										{{ news_post.category }}
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+					<hr>
+					{% if pagination is not empty %}
+						<div class="tool-pagination">
+							{% if pagination.prev %}
+						        <a href="{{ pagination.prev.link }}" class="prev btn d-inline-block mr-3 {{ pagination.prev.link|length ? '' : 'invisible' }}">Prev</a>
+						    {% endif %}
+						    <ul class="pages list-unstyled d-inline-block">
+						        {% for page in pagination.pages %}
+						            <li class="d-inline-block mx-1">
+						                {% if page.link %}
+						                    <a href="{{ page.link }}" class="{{ page.class }}">{{ page.title }}</a>
+						                {% else %}
+						                    <span class="{{ page.class }}">{{ page.title }}</span>
+						                {% endif %}
+						            </li>
+						        {% endfor %}
+						    </ul>
+						    {% if pagination.next %}
+						        <a href="{{ pagination.next.link }}" class="next btn d-inline-block ml-3 {{ pagination.next.link|length ? '' : 'invisible' }}">Next</a>
+						    {% endif %}
+						</div>
+					{% endif %}
+				</div>
+				<div class="col-lg-3" style="margin-top: 150px;">
+					<h4>Archives</h4>
+					<ul class="list-unstyled">
+						{% for item in archives.items %}
+						    <li><a href="{{item.link}}">{{item.name}}</a></li>
+						    {% for child in item.children %}
+						        <li class="child pl-3"><a href="{{child.link}}">{{child.name}}</a></li>
+						    {% endfor %}
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}

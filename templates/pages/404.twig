@@ -1,5 +1,15 @@
 {% extends "layouts/base.twig" %}
 
 {% block content %}
-	Sorry, we couldn't find what you're looking for.
+	<section class="404 py-5" style="min-height: 500px;">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-lg-8 offset-lg-1">
+					<h3 class="h1">Oops! Nothing to see here.</h3>
+					<p>The link you clicked may be broken or the page might have moved. Please double check your URL or use one of the links below.</p>
+					<p><a href="{{ site.link }}" class="btn btn-lg btn-primary">Go Home</a><a href="{{ site.link }}/contact" class="btn btn-lg btn-info ml-3">Contact Us</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}
