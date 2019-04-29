@@ -56,7 +56,6 @@ class Seedling extends \Timber\Site {
 	function themeSupport() {
 		add_theme_support( 'post-formats' );
 		add_theme_support( 'post-thumbnails' );
-		add_theme_support( 'menus' );
 	}
 
 	function registerPostTypes() {
