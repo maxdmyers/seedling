@@ -1,8 +1,7 @@
 <!doctype html>
-<!--[if lt IE 7]><html class="ie ie6 lt-ie9 lt-ie8 lt-ie7" {{ site.language_attributes }}> <![endif]-->
-<!--[if IE 7]><html class="ie ie7 lt-ie9 lt-ie8" {{ site.language_attributes }}> <![endif]-->
-<!--[if IE 8]><html class="ie ie8 lt-ie9" {{ site.language_attributes }}> <![endif]-->
-<!--[if gt IE 8]><!--><html {{ site.language_attributes }}> <!--<![endif]-->
+<!--[if lt IE 9]><html class="ie lt-ie9 lt-ie8 lt-ie7" {{ site.language_attributes }}> <![endif]-->
+<!--[if IE 9]><html class="ie ie9 lt-ie9 lt-ie8" {{ site.language_attributes }}> <![endif]-->
+<!--[if gt IE 9]><!--><html {{ site.language_attributes }}> <!--<![endif]-->
     {% set page_title %}{% if wp_title %}{{ wp_title }} - {{ site.name }}{% else %}{{ site.name }}{% endif %}{% endset %}
     <head>
         <meta charset="{{ site.charset }}">
